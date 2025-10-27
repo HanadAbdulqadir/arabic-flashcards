@@ -1,27 +1,30 @@
 import React from 'react';
+import { getThemeStyles } from '../../utils/themeManager';
 
-const StageSelector = ({ onSelectStage, onReturnToHome }) => {
+const StageSelector = ({ onSelectStage, onReturnToHome, currentTheme = 'blue' }) => {
+  const themeStyles = getThemeStyles(currentTheme);
+
   const containerStyle = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: '100vh',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    background: themeStyles.theme.background,
     padding: '2rem',
-    color: 'white',
+    color: themeStyles.theme.text,
     fontFamily: 'Arial, sans-serif'
   };
 
   const cardStyle = {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    backdropFilter: 'blur(10px)',
+    backgroundColor: themeStyles.theme.card,
     padding: '2rem',
     borderRadius: '1rem',
     marginBottom: '2rem',
     width: '100%',
     maxWidth: '800px',
-    border: '1px solid rgba(255, 255, 255, 0.2)',
+    border: `1px solid ${themeStyles.theme.primary}20`,
+    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
     textAlign: 'center'
   };
 
@@ -29,13 +32,15 @@ const StageSelector = ({ onSelectStage, onReturnToHome }) => {
     fontSize: '2.5rem',
     fontWeight: 'bold',
     marginBottom: '1rem',
-    textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
+    color: themeStyles.theme.primary,
+    textShadow: '2px 2px 4px rgba(0,0,0,0.1)'
   };
 
   const subtitleStyle = {
     fontSize: '1.25rem',
-    opacity: 0.9,
-    marginBottom: '2rem'
+    opacity: 0.8,
+    marginBottom: '2rem',
+    color: themeStyles.theme.text
   };
 
   const sectionStyle = {
@@ -47,8 +52,8 @@ const StageSelector = ({ onSelectStage, onReturnToHome }) => {
     fontSize: '1.5rem',
     fontWeight: 'bold',
     marginBottom: '1rem',
-    color: '#ffd700',
-    textShadow: '1px 1px 2px rgba(0,0,0,0.3)'
+    color: themeStyles.theme.secondary,
+    textShadow: '1px 1px 2px rgba(0,0,0,0.1)'
   };
 
   const buttonStyle = {
@@ -56,9 +61,9 @@ const StageSelector = ({ onSelectStage, onReturnToHome }) => {
     width: '100%',
     marginBottom: '0.75rem',
     padding: '1rem 1.5rem',
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',
-    color: 'white',
-    border: '1px solid rgba(255, 255, 255, 0.3)',
+    backgroundColor: `${themeStyles.theme.primary}15`,
+    color: themeStyles.theme.text,
+    border: `1px solid ${themeStyles.theme.primary}30`,
     borderRadius: '0.75rem',
     cursor: 'pointer',
     fontSize: '1rem',
@@ -70,9 +75,9 @@ const StageSelector = ({ onSelectStage, onReturnToHome }) => {
 
   const buttonHoverStyle = {
     ...buttonStyle,
-    backgroundColor: 'rgba(255, 255, 255, 0.25)',
+    backgroundColor: `${themeStyles.theme.primary}25`,
     transform: 'translateY(-2px)',
-    boxShadow: '0 4px 15px rgba(255, 255, 255, 0.2)'
+    boxShadow: `0 4px 15px ${themeStyles.theme.primary}40`
   };
 
   const [hoveredButton, setHoveredButton] = React.useState(null);
@@ -178,9 +183,9 @@ const StageSelector = ({ onSelectStage, onReturnToHome }) => {
         <button 
           onClick={onReturnToHome}
           style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.2)',
-            color: 'white',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
+            backgroundColor: `${themeStyles.theme.secondary}20`,
+            color: themeStyles.theme.text,
+            border: `1px solid ${themeStyles.theme.secondary}30`,
             padding: '0.75rem 1.5rem',
             borderRadius: '0.75rem',
             cursor: 'pointer',
@@ -191,12 +196,14 @@ const StageSelector = ({ onSelectStage, onReturnToHome }) => {
             width: '100%'
           }}
           onMouseEnter={(e) => {
-            e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
+            e.target.style.backgroundColor = `${themeStyles.theme.secondary}30`;
             e.target.style.transform = 'translateY(-2px)';
+            e.target.style.boxShadow = `0 4px 15px ${themeStyles.theme.secondary}40`;
           }}
           onMouseLeave={(e) => {
-            e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+            e.target.style.backgroundColor = `${themeStyles.theme.secondary}20`;
             e.target.style.transform = 'translateY(0)';
+            e.target.style.boxShadow = 'none';
           }}
         >
           🏠 Return to Home

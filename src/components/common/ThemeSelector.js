@@ -1,7 +1,7 @@
 import React from 'react';
 import { themes, getThemeStyles } from '../../utils/themeManager';
 
-const ThemeSelector = ({ currentTheme, onThemeChange }) => {
+const ThemeSelector = ({ currentTheme, onThemeChange, onClose }) => {
   const styles = getThemeStyles(currentTheme);
 
   const themeButtonStyle = {
@@ -48,6 +48,16 @@ const ThemeSelector = ({ currentTheme, onThemeChange }) => {
     marginBottom: '2rem'
   };
 
+  const handleThemeSelect = (themeName) => {
+    onThemeChange(themeName);
+    // Close the theme selector immediately after selection
+    setTimeout(() => {
+      if (onClose) {
+        onClose();
+      }
+    }, 100);
+  };
+
   return (
     <div style={containerStyle}>
       <div style={cardStyle}>
@@ -60,7 +70,7 @@ const ThemeSelector = ({ currentTheme, onThemeChange }) => {
           {Object.entries(themes).map(([key, theme]) => (
             <button
               key={key}
-              onClick={() => onThemeChange(key)}
+              onClick={() => handleThemeSelect(key)}
               style={{
                 ...themeButtonStyle,
                 backgroundColor: theme.primary,
@@ -103,7 +113,7 @@ const ThemeSelector = ({ currentTheme, onThemeChange }) => {
         </div>
 
         <button
-          onClick={() => window.history.back()}
+          onClick={onClose}
           style={{
             backgroundColor: styles.theme.secondary,
             color: 'white',

@@ -182,6 +182,8 @@ function AppProgressiveModular() {
     setCurrentTheme(themeName);
     // Save theme preference to localStorage
     localStorage.setItem('arabicFlashcardsTheme', themeName);
+    // Close theme selector and trigger re-render
+    setShowThemeSelector(false);
   };
 
   const handleShowThemeSelector = () => {
@@ -205,6 +207,7 @@ function AppProgressiveModular() {
       <ThemeSelector 
         currentTheme={currentTheme} 
         onThemeChange={handleThemeChange}
+        onClose={() => setShowThemeSelector(false)}
       />
     );
   }
@@ -304,6 +307,45 @@ function AppProgressiveModular() {
           disabled={selectedAnswer !== null}
           currentTheme={currentTheme}
         />
+
+        {/* Theme Indicator */}
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center', 
+          marginTop: '1rem',
+          padding: '0.75rem 1rem',
+          backgroundColor: `${themeStyles.theme.primary}10`,
+          borderRadius: '0.5rem',
+          border: `1px solid ${themeStyles.theme.primary}20`
+        }}>
+          <span style={{ fontSize: '0.875rem', color: themeStyles.theme.text, opacity: 0.8 }}>
+            Current Theme: <strong style={{ color: themeStyles.theme.primary }}>{themeStyles.theme.name}</strong>
+          </span>
+          <button 
+            onClick={handleShowThemeSelector}
+            style={{
+              backgroundColor: 'transparent',
+              color: themeStyles.theme.primary,
+              border: `1px solid ${themeStyles.theme.primary}`,
+              padding: '0.5rem 1rem',
+              borderRadius: '0.375rem',
+              fontSize: '0.875rem',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = themeStyles.theme.primary;
+              e.target.style.color = 'white';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = 'transparent';
+              e.target.style.color = themeStyles.theme.primary;
+            }}
+          >
+            🎨 Change
+          </button>
+        </div>
 
         {/* Navigation Buttons */}
         <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
