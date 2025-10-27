@@ -1,7 +1,7 @@
-import AppProgressive from "./AppProgressive";
+import AppProgressiveModular from "./AppProgressiveModular";
 
 function App() {
-  return <AppProgressive />;
+  return <AppProgressiveModular />;
 }
 
 export default App;
