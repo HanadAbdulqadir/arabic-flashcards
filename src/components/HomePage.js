@@ -2,6 +2,8 @@ import React from 'react';
 import Badges from './gamification/Badges';
 import Leaderboard from './gamification/Leaderboard';
 import PointsSystem from './gamification/PointsSystem';
+import DailyChallenges from './gamification/DailyChallenges';
+import LevelProgression from './gamification/LevelProgression';
 import LearningRecommendations from './analytics/LearningRecommendations';
 import { getThemeStyles, getThemeButtonHoverStyle } from '../utils/themeManager';
 
@@ -13,7 +15,8 @@ const HomePage = ({
   earnedBadges = [], 
   userProgress = {},
   currentTheme = 'blue',
-  learningAnalytics = {}
+  learningAnalytics = {},
+  advancedGamification = {}
 }) => {
   const themeStyles = getThemeStyles(currentTheme);
 
@@ -151,6 +154,37 @@ const HomePage = ({
           >
             🎨 Change Theme
           </button>
+        </div>
+      </div>
+
+      {/* Advanced Gamification Section */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+        {/* Level Progression */}
+        <div style={themeStyles.cardStyle}>
+          <LevelProgression 
+            levelProgress={advancedGamification.getLevelProgress ? advancedGamification.getLevelProgress() : {}}
+            levelRewards={advancedGamification.getLevelRewards ? advancedGamification.getLevelRewards() : []}
+            currentTheme={currentTheme}
+            onLevelUp={() => {
+              // Handle level up - could show celebration animation
+              console.log('Level up!');
+              alert('🎉 Congratulations! You leveled up!');
+            }}
+          />
+        </div>
+
+        {/* Daily Challenges */}
+        <div style={themeStyles.cardStyle}>
+          <DailyChallenges 
+            challenges={advancedGamification.dailyChallenges || []}
+            completedChallenges={advancedGamification.completedChallenges || []}
+            currentTheme={currentTheme}
+            onChallengeClick={(challenge) => {
+              // Handle challenge click - could navigate to relevant practice
+              console.log('Selected challenge:', challenge);
+              alert(`Starting challenge: ${challenge.title}`);
+            }}
+          />
         </div>
       </div>
 

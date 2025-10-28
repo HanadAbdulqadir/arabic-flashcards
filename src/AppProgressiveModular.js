@@ -11,6 +11,7 @@ import { useSpacedRepetition } from "./hooks/useSpacedRepetition";
 import { useAudioManager } from "./hooks/useAudioManager";
 import { useGamification } from "./hooks/useGamification";
 import { useLearningAnalytics } from "./hooks/useLearningAnalytics";
+import { useAdvancedGamification } from "./hooks/useAdvancedGamification";
 import { initializeDeck, getAllCards, calculateStatistics } from "./utils/deckManager";
 import { getThemeStyles } from "./utils/themeManager";
 
@@ -52,6 +53,19 @@ function AppProgressiveModular() {
     getLearningRecommendations,
     sessionStats
   } = useLearningAnalytics();
+
+  // Advanced gamification
+  const {
+    userLevel,
+    experiencePoints,
+    dailyChallenges,
+    completedChallenges,
+    streak: advancedStreak,
+    trackCardCompletion,
+    trackSessionCompletion,
+    getLevelProgress,
+    getLevelRewards
+  } = useAdvancedGamification();
 
   const initializeDeckHandler = useCallback((difficultyLevel = difficulty, stageName = stage) => {
     const newDeck = initializeDeck(difficultyLevel, stageName);
@@ -237,6 +251,12 @@ function AppProgressiveModular() {
         learningAnalytics={{
           getLearningRecommendations,
           sessionStats
+        }}
+        advancedGamification={{
+          dailyChallenges,
+          completedChallenges,
+          getLevelProgress,
+          getLevelRewards
         }}
       />
     );
