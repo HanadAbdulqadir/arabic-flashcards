@@ -2,6 +2,7 @@ import React from 'react';
 import Badges from './gamification/Badges';
 import Leaderboard from './gamification/Leaderboard';
 import PointsSystem from './gamification/PointsSystem';
+import LearningRecommendations from './analytics/LearningRecommendations';
 import { getThemeStyles, getThemeButtonHoverStyle } from '../utils/themeManager';
 
 const HomePage = ({ 
@@ -11,7 +12,8 @@ const HomePage = ({
   currentStreak = 0, 
   earnedBadges = [], 
   userProgress = {},
-  currentTheme = 'blue'
+  currentTheme = 'blue',
+  learningAnalytics = {}
 }) => {
   const themeStyles = getThemeStyles(currentTheme);
 
@@ -150,6 +152,20 @@ const HomePage = ({
             🎨 Change Theme
           </button>
         </div>
+      </div>
+
+      {/* Learning Recommendations Section */}
+      <div style={{ ...themeStyles.cardStyle, marginBottom: '1rem' }}>
+        <LearningRecommendations 
+          recommendations={learningAnalytics.getLearningRecommendations ? learningAnalytics.getLearningRecommendations() : []}
+          sessionStats={learningAnalytics.sessionStats || {}}
+          currentTheme={currentTheme}
+          onSelectRecommendation={(rec) => {
+            // Handle recommendation selection - could navigate to specific practice
+            console.log('Selected recommendation:', rec);
+            alert(`Starting practice for: ${rec.description}`);
+          }}
+        />
       </div>
 
       {/* Gamification Section */}

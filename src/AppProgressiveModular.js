@@ -10,8 +10,9 @@ import PointsSystem from "./components/gamification/PointsSystem";
 import { useSpacedRepetition } from "./hooks/useSpacedRepetition";
 import { useAudioManager } from "./hooks/useAudioManager";
 import { useGamification } from "./hooks/useGamification";
+import { useLearningAnalytics } from "./hooks/useLearningAnalytics";
 import { initializeDeck, getAllCards, calculateStatistics } from "./utils/deckManager";
-import { getThemeStyles, getThemeButtonHoverStyle } from "./utils/themeManager";
+import { getThemeStyles } from "./utils/themeManager";
 
 function AppProgressiveModular() {
   // State management
@@ -44,6 +45,13 @@ function AppProgressiveModular() {
     currentStreak,
     trackCardResponse
   } = useGamification();
+  
+  // Learning analytics
+  const {
+    trackCardResponse: trackAnalytics,
+    getLearningRecommendations,
+    sessionStats
+  } = useLearningAnalytics();
 
   const initializeDeckHandler = useCallback((difficultyLevel = difficulty, stageName = stage) => {
     const newDeck = initializeDeck(difficultyLevel, stageName);
@@ -97,6 +105,9 @@ function AppProgressiveModular() {
     
     // Track gamification
     const gamificationResult = trackCardResponse(currentCard, isCorrect, responseTime);
+    
+    // Track learning analytics
+    trackAnalytics(currentCard, isCorrect, responseTime, selected, correctAnswer);
     
     if (isCorrect) {
       setFeedback(`✅ Correct! +${gamificationResult.pointsEarned} points`);
@@ -223,6 +234,10 @@ function AppProgressiveModular() {
         earnedBadges={earnedBadges}
         userProgress={stats}
         currentTheme={currentTheme}
+        learningAnalytics={{
+          getLearningRecommendations,
+          sessionStats
+        }}
       />
     );
   }
